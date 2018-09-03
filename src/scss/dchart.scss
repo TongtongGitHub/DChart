@@ -1,0 +1,166 @@
+.dc {
+    &-linechart,&-lineBarChart {
+        &-xAxis,&-yAxis {
+            text {
+                font-size: 12px;
+                fill: #555;
+            }
+            path {
+                fill: none;
+                stroke: none;
+            }
+            line {
+                stroke: #E6ECF2;
+            }
+        }
+        &-axis-title {
+            fill: #1470CC;
+            font-size: 14px;
+        }
+        &-tooltip {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 3px;
+            position: absolute;
+            z-index: 10;
+            visibility: hidden;
+            color: #fff;
+            font-size: 12px;
+        }
+        &-tooltip-icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            box-sizing: border-box;
+            margin-right: 5px;
+        }
+        &-tooltip-name {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        &-tooltip-value {
+            display: inline-block;
+        }
+        &-bg {
+            background:rgba(191,191,191,1);
+            opacity:0.15;
+            visibility: hidden;
+        }
+        &-legends {
+            .legend {
+                display: inline-block;
+                cursor: pointer;
+            }
+            .legend-icon {
+                width:14px;
+                height:14px; 
+                border-radius: 3px;
+                margin-left: 10px;
+                margin-right: 5px;
+                display: inline-block;
+                vertical-align: middle;
+                i {
+                    background: url(../img/yes.png) no-repeat center;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .legend-disabled {
+                .legend-icon {
+                    background: #EDF0F2;
+                    border: 1px solid #CED3D9;
+                    i {
+                        display: none;
+                    }
+                }
+                .legend-label {
+                    color: #888;
+                }
+            }
+        }
+    }
+
+    /* line bar chart */
+    &-lineBarChart {
+       &-yAxis1 {
+           .tick text {
+                fill: #1470CC;
+           }
+       }
+       &-yAxis2 {
+           .tick text {
+                fill: #1BB21B;
+           }
+       }
+       &-axis-title {
+            fill: #555;
+       }
+       &-axis-title1 {
+            fill: #1470CC;
+       }
+       &-axis-title2 {
+            fill: #1BB21B;
+       }
+    }
+
+    /* bubble chart */
+    &-bubble {
+        &-item text {
+            font-size: 18px;
+        }
+        &-subItem {
+            cursor: pointer;
+            text{
+                font-size: 16px;
+            }
+        }
+        &-tooltip {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 3px;
+            position: absolute;
+            z-index: 10;
+            visibility: hidden;
+            color: #fff;
+            font-size: 12px;
+        }
+    }
+
+    /* map */
+    &-map-tooltip {
+        padding: 10px;
+        color: #555;
+        font-size: 14px;
+        position: absolute;
+        visibility: hidden;
+        background: #FFFFFF;
+        border: 1px solid #CED3D9;
+        box-shadow:0px 0px 5px rgba(0,33,66,0.2);
+        white-space:nowrap;
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: -16px;
+            width: 0;
+            height: 0;
+            border: 8px dashed transparent;
+            border-top: 8px solid #CED3D9;
+        }
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            width: 0;
+            height: 0;
+            border: 8px dashed transparent;
+            border-top: 8px solid #fff;
+        }
+    }
+}

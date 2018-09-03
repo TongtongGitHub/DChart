@@ -1,0 +1,29 @@
+{
+  "name": "dchart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "linechart": "parcel src/index.html --open --port 1111",
+    "build": "parcel build src/index.html -d build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TongtongGitHub/DChart.git"
+  },
+  "keywords": [
+    "chart",
+    "js",
+    "d3"
+  ],
+  "author": "liutongtong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TongtongGitHub/DChart/issues"
+  },
+  "homepage": "https://github.com/TongtongGitHub/DChart#readme",
+  "dependencies": {
+    "d3": "^4.10.2",
+    "node-sass": "^4.9.3"
+  }
+}
