@@ -12,7 +12,7 @@ $ npm run start
 
 ### Usage
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/aHvVgFiBnGzzKCEjdVtL.png" width="450">
+![image](http://github.com/TongtongGitHub/DChart/raw/master/image/linechart.jpg)
 
 ```html
 <div style="width: 100%;" class="linechart"></div>
@@ -48,6 +48,7 @@ const chart1 = new DCLinechart({
     carrier: "linechart",
     data: linechartData,
     trigger: "hover",
+    dateFormat: '%m-%d',
     onMousemove: function (closeIndex, closeX, xValue) {}
 });
 ```
