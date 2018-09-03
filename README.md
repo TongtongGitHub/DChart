@@ -12,7 +12,7 @@ $ npm run start
 
 ### Usage
 
-![image](http://github.com/TongtongGitHub/DChart/raw/master/image/linechart.jpg)
+![image](https://github.com/TongtongGitHub/DChart/blob/master/image/linechart.jpg)
 
 ```html
 <div style="width: 100%;" class="linechart"></div>
