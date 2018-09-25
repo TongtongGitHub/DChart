@@ -1,0 +1,115 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Line chart</title>
+    <style>
+        .map1, .map2 {
+            width: 460px;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            margin: auto;
+        }
+        .dc-map-tooltip {
+            padding: 15px 10px;
+            color: #555;
+            font-size: 14px;
+            position: absolute;
+            visibility: hidden;
+            background: #FFFFFF;
+            border: 1px solid #CED3D9;
+            box-shadow:0px 0px 5px rgba(0,33,66,0.2)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="map1">
+        <div class="dc-map-tooltip">
+        </div>
+    </div>
+    <div class="map2">
+        <div class="dc-map-tooltip">
+        </div>
+    </div>
+    <script src="../libs/jquery.js"></script>
+    <script src="../libs/d3.js"></script>
+    <script src="../libs/topojson.js"></script>
+    <script src="../assets/map.js"></script>
+    <script>
+        let data1 = [
+                {
+                    name: "American",
+                    id: 840,
+                    value: 12
+                },
+                {
+                    name: "China",
+                    id: 156,
+                    value: 13
+                }
+            ];
+        const chart1 = new window.DCWorldMap({
+            carrier: ".map1",
+            colors: ["#7AB4EF", "#9BC6F2", "#9BC6F2", "#D8E7F7", "#EFF4FA"],
+            type: 1,
+            data: data1,
+            onMousemoveEvent: function (d, pos) {
+                let posLeft = pos[0] + 20;
+                let posTop = pos[1] - 20;
+                for (let index = 0; index < data1.length; index++) {
+                    if ( d.id == data1[index].id) {
+                        $(".map1 .dc-map-tooltip").text(data1[index].name)
+                        $(".map1 .dc-map-tooltip").css({
+                            "visibility":"visible",
+                            "left": posLeft + "px",
+                            "top": posTop + "px"
+                        });
+                    }
+                }
+            },
+            onMouseoutEvent: function () {
+                $(".map1 .dc-map-tooltip").css({
+                    "visibility":"hidden"
+                });
+            }
+        });
+        
+        let data2 = [
+                {
+                    name: "Asia",
+                    id: "AS",
+                    value: 12
+                }
+            ];
+        const chart2 = new window.DCWorldMap({
+            carrier: ".map2",
+            colors: ["#7AB4EF", "#9BC6F2", "#9BC6F2", "#D8E7F7", "#EFF4FA"],
+            type: 2,
+            data: data2,
+            onMousemoveEvent: function (d, pos) {
+                let posLeft = pos[0] + 20;
+                let posTop = pos[1] - 20;
+                for (let index = 0; index < data2.length; index++) {
+                    if ( d.properties.id == data2[index].id) {
+                        $(".map2 .dc-map-tooltip").text(data2[index].name)
+                        $(".map2 .dc-map-tooltip").css({
+                            "visibility":"visible",
+                            "left": posLeft + "px",
+                            "top": posTop + "px"
+                        });
+                    }
+                }
+            },
+            onMouseoutEvent: function () {
+                $(".map2 .dc-map-tooltip").css({
+                    "visibility":"hidden"
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

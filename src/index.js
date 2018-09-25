@@ -1,5 +1,6 @@
 import {
-    DCLinechart
+    DCLinechart,
+    DCLineBarchart
 } from './components/index'
 let linechartData = {
     xAxis: {

@@ -1,0 +1,231 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Bubble chart</title>
+    <style>
+        .bubble1, .bubble2 {
+            width: 700px;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+            margin: auto;
+            float: left;
+        }
+        .dc-bubble-container {
+            position: relative;
+        }
+        .dc-bubble-subItem text{
+            font-size: 16px;
+        }
+        .dc-bubble-item text {
+            font-size: 18px;
+        }
+        .dc-bubble-tooltip {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 3px;
+            position: absolute;
+            z-index: 10;
+            visibility: hidden;
+            color: #fff;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bubble1">
+        <div class="dc-bubble-tooltip">
+        </div>
+    </div>
+    <div class="bubble2">
+        <div class="dc-bubble-tooltip">
+        </div>
+    </div>
+    <script src="../libs/d3.js"></script>
+    <script src="../libs/jquery.js"></script>
+    <script src="../components/bubbleChart.js"></script>
+    <script>
+        let colors = ["#52C4EB", "#FAC54B", "#8CDDA9", "#C1E5CE", "#BCDEFF"];
+        let data = {
+                name: "led灯泡",
+                attr: [
+                    {
+                        name: "No.1 材质",
+                        key: 1,
+                        values: ["25%","35%"],
+                        attr: [
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            }
+                        ]
+                    },
+                    {
+                        name: "No.2 材质",
+                        key: 2,
+                        values: ["25%","35%"],
+                        attr: [
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            }
+                        ]
+                    },
+                    {
+                        name: "No.3 材质",
+                        key: 3,
+                        values: ["25%","35%"],
+                        attr: [
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            }
+                        ]
+                    },
+                    {
+                        name: "No.4 材质",
+                        key: 4,
+                        values: ["25%","35%"],
+                        attr: [
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            }
+                        ]
+                    },
+                    {
+                        name: "No.4 材质",
+                        key: 5,
+                        values: ["25%","35%"],
+                        attr: [
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                key: 30,
+                                values: ["25%", "25%", 62]
+                            }
+                        ]
+                    }
+                ]
+            };
+        const chart1 = new window.DCBubbleChart({
+            carrier: ".bubble1",
+            type: 1,
+            width: 700,
+            height: 600,
+            mainColor: "#3990E5",
+            attrColors: colors,
+            data: data,
+            onClickEvent: function (d,index) {
+                $(".bubble2 svg").remove();
+                $(".bubble2 .dc-bubble-tooltip").empty().attr("style", "visibility:hidden");
+                $(".bubble1 .dc-bubble-tooltip").empty().append(
+                    "<div>" + d.name + "</div>" +
+                    "<div>" + "访问占比：" + d.values[0] + "</div>" +
+                    "<div>" + "询盘占比：" + d.values[1] + "</div>"
+                );
+                new window.DCBubbleChart({
+                    carrier: ".bubble2",
+                    width: 700,
+                    height: 600,
+                    mainColor: colors[index],
+                    attrColors: ["#EEF6FE"],
+                    type: 2,
+                    data: d,
+                    onClickEvent: function (d,index) {
+                        $(".bubble2 .dc-bubble-tooltip").empty().append(
+                            "<div>" + d.name + "</div>" +
+                            "<div>" + "访问占比：" + d.values[0] + "</div>" +
+                            "<div>" + "询盘占比：" + d.values[1] + "</div>" +
+                            "<div>" + "我的产品：" + d.values[2] + "</div>"
+                        );
+                    }
+                })
+            }
+        });
+        
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Line chart</title>
+    <style>
+        .linechart1, .linechart2, .linechart3 {
+            width: 1024px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            margin: auto;
+        }
+
+        .dc-linechart-xAxis text,
+        .dc-linechart-yAxis text {
+            font: 10px sans-serif;
+        }
+
+        .dc-linechart-xAxis path,
+        .dc-linechart-yAxis path {
+            fill: none;
+            stroke: none;
+        }
+
+        .dc-linechart-xAxis line,
+        .dc-linechart-yAxis line {
+            stroke: #E6ECF2;
+        }
+
+        .dc-linechart-xAxis text,
+        .dc-linechart-yAxis text {
+            fill: #555;
+        }
+
+        .dc-linechart-axis-tile {
+            fill: #1470CC;
+            font-size: 14px;
+        }
+
+        .dc-linechart-tooltip {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 3px;
+            position: absolute;
+            z-index: 10;
+            visibility: hidden;
+            color: #fff;
+        }
+
+        .dc-linechart-tooltip-icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        .dc-linechart-tooltip-name {
+            display: inline-block;
+
+        }
+
+        .dc-linechart-tooltip-value {
+            display: inline-block;
+        }
+        .dc-linechart-bg {
+            background: #BFBFBF;
+            opacity: 0.2;
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <button class="random-btn">Random Data</button>
+        <button class="remove-btn">remove Data</button>
+    </div>
+    <div class="linechart1">
+    </div>
+   
+    <script src="../libs/jquery.js"></script>
+    <script src="../libs/d3.js"></script>
+    <script src="../components/lineBarchart.js"></script>
+    <script>
+        const chart1 = new window.DCLineBarchart({
+            carrier: "linechart1",
+            colors: ["#1470CC", "#1BB21B"],
+            autoShowTooltip: true,
+            data: {
+                xAxis: {
+                    name: "时间",
+                    values: ["2017-01-01","2017-01-02"]
+                },
+                yAxis: [
+                    {
+                    name: "访问量",
+                    values: [{
+                            label: "访问量",
+                            values: [111, 222, 333, 444, 555,111, 222, 333, 444, 555,111, 222, 333, 444, 555,111, 222, 333, 444, 555,111, 222, 333, 444]
+                        }]
+                    },
+                    {
+                    name: "询盘量",
+                    values: [{
+                            label: "询盘量",
+                            values: [1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4]
+                        }]
+                    }
+                ]
+            }
+        });
+    </script>
+
+</body>
+
+</html>

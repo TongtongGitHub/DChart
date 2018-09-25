@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Forced chart</title>
+    <style>
+        .bubble {
+            width: 960px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            margin: auto;
+        }
+        .dc-bubble-container {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <button class="random-btn">Random Data</button>
+        <button class="remove-btn">remove Data</button>
+    </div>
+    <div class="bubble">
+        <div class="dc-bubble-tooltip">
+        </div>
+    </div>
+    <script src="../libs/jquery.js"></script>
+    <script src="../libs/d3.js"></script>
+    <script src="../assets/forcedChart.js"></script>
+    <script>
+        const chart1 = new window.DCForcedChart({
+            carrier: ".bubble",
+            colors: ["#3990E5", "#52C4EB", "#FAC54B", "#8CDDA9", "#C1E5CE", "#BCDEFF"],
+            data: {
+                name: "led灯泡",
+                children: [
+                    {
+                        name: "No.1 灯体材质",
+                        value: 1,
+                        // children: [
+                        //     {
+                        //         name: "玻璃",
+                        //         value: 25,
+                        //         values: ["25%", "25%", 62]
+                        //     },
+                        //     {
+                        //         name: "玻璃",
+                        //         value: 25,
+                        //         values: ["25%", "25%", 62]
+                        //     },
+                        //     {
+                        //         name: "玻璃",
+                        //         value: 25,
+                        //         values: ["25%", "25%", 62]
+                        //     }
+                        // ]
+                    },
+                    {
+                        name: "No.2 灯体材质",
+                        value: 2,
+                        attr: [
+                            {
+                                name: "玻璃",
+                                value: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                value: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                value: 25,
+                                values: ["25%", "25%", 62]
+                            }
+                        ]
+                    },
+                    {
+                        name: "No.3 灯体材质",
+                        value: 3,
+                        attr: [
+                            {
+                                name: "玻璃",
+                                value: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                value: 25,
+                                values: ["25%", "25%", 62]
+                            },
+                            {
+                                name: "玻璃",
+                                value: 25,
+                                values: ["25%", "25%", 62]
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+        
+
+        $(".random-btn").on("click", function () {
+            const data = [];
+            for (let i = 0; i < Math.random() * 100; i++) {
+                data.push({
+                    name: "a" + i,
+                    value: [(Math.random() * 100).toFixed(0), (Math.random() * 100).toFixed(0), (Math.random() *
+                        100).toFixed(0), (Math.random() * 100).toFixed(0)]
+                })
+            }
+            chart1.update({
+            });
+        })
+    </script>
+
+</body>
+
+</html>

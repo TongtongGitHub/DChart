@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>chart</title>
+    <style>
+        .chart{
+            height: 500px;
+            width: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chart">
+    </div>
+    <script src="../libs/jquery.js"></script>
+    <script src="../libs/d3.js"></script>
+    <script>
+        this.chart = d3.select(".chart")
+                .append("svg")
+                .attr("width", "100%")
+                .attr("height", "100%");
+
+        
+        this.y = d3.scaleLinear()
+                .rangeRound([0, 500])
+                .domain([0,1000]);
+    </script>
+
+</body>
+
+</html>
