@@ -4,7 +4,7 @@
  * date: 2018-04-10
  */
 
-import * as d3 from 'd3'
+(function() {
 
 const defaultConfig = {
     carrier: 'chart', //class name
@@ -35,12 +35,12 @@ const defaultConfig = {
 const gridColor = '#C5CACF';
 let isResize = false;
 
-function linechart(cf) {
+function DCLinechart(cf) {
     this.config = Object.assign({}, defaultConfig, cf);
     this._init();
 }
 
-linechart.prototype = {
+DCLinechart.prototype = {
     _init: function () {
         let _this = this;
         this._initData();
@@ -588,4 +588,7 @@ linechart.prototype = {
             .attr('x', xStart)
     }
 }
-export default linechart;
+
+window.DCLinechart = DCLinechart;
+    
+})()

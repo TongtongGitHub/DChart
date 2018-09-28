@@ -1,7 +1,4 @@
-import {
-    DCLinechart,
-    DCLineBarchart
-} from './components/index'
+
 let linechartData = {
     xAxis: {
         name: "Date",
