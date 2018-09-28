@@ -46,7 +46,7 @@ let linechartData = {
     }
 };
 const chart1 = new DCLinechart({
-    carrier: "linechart",
+    carrier: ".linechart",
     data: linechartData,
     trigger: "hover",
     dateFormat: '%m-%d',
