@@ -61,7 +61,7 @@
                     d3.select(this.config.carrier).select('.dc-linechart-tooltip').remove();
                     this._init();
                 }, 500);
-            })
+            }, false)
         }
     }
     

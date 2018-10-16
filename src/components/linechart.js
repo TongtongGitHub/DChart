@@ -376,9 +376,9 @@
             });
             _this.setTooltipData(closeIndex, closeX, xValue);
             if (this.config.trigger == 'hover') {
-                _this.config.onMousemove(closeIndex, closeX, xValue);
+                document.dispatchEvent(new CustomEvent('mouseMove'))
             } else {
-                _this.config.onClick(closeIndex, closeX, xValue);
+                document.dispatchEvent(new CustomEvent('mouseClick'))
             }
         },
         _onMouseLeaveFunc: function () {

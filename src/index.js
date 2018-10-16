@@ -49,6 +49,5 @@ const chart1 = new DCLinechart({
     carrier: ".linechart",
     data: linechartData,
     trigger: "hover",
-    dateFormat: '%m-%d',
-    onMousemove: function (closeIndex, closeX, xValue) {}
+    dateFormat: '%m-%d'
 });

@@ -21,7 +21,8 @@
     z-index: 10;
     visibility: hidden;
     color: #fff;
-    font-size: 12px; }
+    font-size: 12px;
+    top: 0; }
   .dc-linechart-tooltip-icon, .dc-lineBarChart-tooltip-icon {
     display: inline-block;
     width: 12px;
