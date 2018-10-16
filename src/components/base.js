@@ -25,8 +25,6 @@
         legends: null, 
         gridColor: '#C5CACF'
     };
-
-    let isResize = false;
     
     function BaseDChart(cf) {
         this.config = Object.assign({}, defaultConfig, cf);
@@ -59,11 +57,9 @@
                 }
                 clearTimeout(resizeTimer)
                 resizeTimer = setTimeout(() => {
-                    isResize = true;
                     d3.select(this.config.carrier).select('svg').remove();
                     d3.select(this.config.carrier).select('.dc-linechart-tooltip').remove();
                     this._init();
-                    isResize = false;
                 }, 500);
             })
         }

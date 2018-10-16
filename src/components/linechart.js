@@ -8,13 +8,12 @@
     let _super = window.BaseDChart;
 
     function DCLinechart(cf) {
-        _super.call(this, cf);
-        _super.prototype._initResize.call(this);
+        _super.call(this, cf); //call super construction
+        _super.prototype._initResize.call(this); //call super function
         this._init();
     }
-    DCLinechart.prototype = Object.create(_super.prototype);
-    DCLinechart.prototype.constructor = DCLinechart;
-
+    DCLinechart.prototype = Object.create(_super.prototype); 
+    DCLinechart.prototype.constructor = DCLinechart; 
 
     DCLinechart.prototype = {
         _init: function () {
@@ -27,22 +26,8 @@
             this._drawLine();
             this._drawGradientArea();
             this._drawDot();
-            // this._setEvents();
-            // this._initTooltip();
-        },
-
-        _getTransition: function (duration, ease) {
-            if (isResize) {
-                return d3.transition().duration(0);
-            }
-            let t = d3.transition();
-            if (duration) {
-                t = t.duration(duration);
-            }
-            if (ease) {
-                t = t.ease(ease);
-            }
-            return t;
+            this._initTooltip();
+            this._setEvents();
         },
         _drawAxis: function () {
             //scale for X and Y axis
@@ -297,12 +282,12 @@
         },
         _initTooltip: function () {
             let _this = this;
-            this.tooltip = d3.select('.' + this.carrier).append('div')
+            this.tooltip = d3.select(this.config.carrier).append('div')
                 .attr('class', 'dc-linechart-tooltip');
             this.tooltip.append('div')
                 .attr('class', 'dc-linechart-tooltip-title');
             let row = this.tooltip.selectAll('.dc-linechart-tooltip-row')
-                .data(this.data.yAxis.values)
+                .data(this.yAxisData.values)
                 .enter()
                 .append('div')
                 .attr('class', 'dc-linechart-tooltip-row');
@@ -316,12 +301,6 @@
             this.tooltip.on('mousemove', function () {
                 _this._onMousemoveFunc();
             })
-
-            if (this.autoShowTooltip) {
-                setTimeout(() => {
-                    this.setTooltipData(this.data.xAxis.values.length - 1, this.x(this.parseTime(this.data.xAxis.values[this.data.xAxis.values.length - 1])), this.data.xAxis.values[this.data.xAxis.values.length - 1]);
-                }, isResize ? 0 : this.duration);
-            }
         },
         setTooltipData: function (closeIndex, closeX, xValue) {
             this.chart.select('.dc-hightlight-line')
@@ -330,66 +309,62 @@
                 .attr('visibility', 'visible')
 
             this.chart.selectAll('.dc-linechart-dots')
-                .data(this.data.yAxis.values)
+                .data(this.yAxisData.values)
                 .selectAll('.dc-linechart-dot')
                 .data((d) => {
                     return d.values;
-                }).transition(this._getTransition(this.duration / 2))
+                }).transition().duration(this.config.duration / 2)
                 .attr('r', (d, index) => {
                     return index == closeIndex ? 3.5 : 0;
                 })
-            // .transition(this._getTransition(this.duration/2))
-            // .attr('r', (d, index) => {
-            //     return index == closeIndex ? 3.5 : 0;
-            // })
 
             this.tooltip.select('.dc-linechart-tooltip-title')
                 .text(xValue)
 
             this.tooltip.selectAll('.dc-linechart-tooltip-icon')
-                .data(this.colors)
+                .data(this.config.colors)
                 .style('background', (d, index) => {
                     return d;
                 });
 
             this.tooltip.selectAll('.dc-linechart-tooltip-name')
-                .data(this.data.yAxis.values)
+                .data(this.yAxisData.values)
                 .text((d) => {
                     return d.label;
                 });
 
             this.tooltip.selectAll('.dc-linechart-tooltip-value')
-                .data(this.data.yAxis.values)
+                .data(this.yAxisData.values)
                 .text((d) => {
                     return d.values[closeIndex] != null ? d.values[closeIndex] : 'No data';
                 });
 
-            let curPos = d3.mouse(document.querySelector('.' + this.carrier + ' .dc-linechart-target'));
-            let tipWidth = document.querySelector('.' + this.carrier + ' .dc-linechart-tooltip').getBoundingClientRect().width;
-            let tipHeight = document.querySelector('.' + this.carrier + ' .dc-linechart-tooltip').getBoundingClientRect().height;
-            let rectWidth = document.querySelector('.' + this.carrier + ' .dc-linechart-target').getBoundingClientRect().width;
-            let rectHeight = document.querySelector('.' + this.carrier + ' .dc-linechart-target').getBoundingClientRect().height;
+            let curPos = d3.mouse(document.querySelector(this.config.carrier + ' .dc-linechart-target'));
+            let tipWidth = document.querySelector(this.config.carrier + ' .dc-linechart-tooltip').getBoundingClientRect().width;
+            let tipHeight = document.querySelector(this.config.carrier + ' .dc-linechart-tooltip').getBoundingClientRect().height;
+            let rectWidth = document.querySelector(this.config.carrier + ' .dc-linechart-target').getBoundingClientRect().width;
+            let rectHeight = document.querySelector(this.config.carrier + ' .dc-linechart-target').getBoundingClientRect().height;
             let left = tipWidth + 20 < rectWidth - curPos[0] ?
-                curPos[0] + this.margin.left + 20 + 'px' :
-                curPos[0] + this.margin.left - tipWidth + 'px'
+                curPos[0] + this.config.marginLeft + 20 + 'px' :
+                curPos[0] + this.config.marginLeft - tipWidth + 'px'
             let top = tipHeight + 20 < rectHeight - curPos[1] ?
-                curPos[1] + this.margin.top + 20 + 'px' :
-                curPos[1] + this.margin.top - tipHeight + 'px'
-            this.tooltip.transition(this._getTransition(this.duration, d3.easeExpOut))
+                curPos[1] + this.config.marginTop + 20 + 'px' :
+                curPos[1] + this.config.marginTop  - tipHeight + 'px'
+            this.tooltip.transition().duration(this.config.duration).ease(d3.easeExpOut)
                 .style('top', top)
                 .style('left', left)
-                .transition(this._getTransition(this.duration / 2))
+                .transition().duration(this.config.duration / 2)
                 .style('visibility', 'visible');
         },
         _onMousemoveFunc: function () {
             let _this = this;
-            let curPos = d3.mouse(document.querySelector('.' + this.carrier + ' .dc-linechart-target'));
+            let curPos = d3.mouse(document.querySelector(this.config.carrier + ' .dc-linechart-target'));
             let distance = _this.width;
             let closeIndex = 0;
             let closeX = 0;
             let xValue = '';
             //get the closest item and distance
-            _this.data.xAxis.values.forEach((item, index) => {
+            _this.xAxisData.values.forEach((item, index) => {
                 let xPos = _this.x(this.parseTime(item));
                 let dis = Math.abs(xPos - curPos[0]);
                 if (dis < distance) {
@@ -400,26 +375,26 @@
                 }
             });
             _this.setTooltipData(closeIndex, closeX, xValue);
-            if (this.trigger == 'hover') {
+            if (this.config.trigger == 'hover') {
                 _this.config.onMousemove(closeIndex, closeX, xValue);
             } else {
                 _this.config.onClick(closeIndex, closeX, xValue);
             }
         },
         _onMouseLeaveFunc: function () {
-            this.tooltip.transition(this._getTransition(this.duration))
+            this.tooltip.transition().duration(this.config.duration)
                 .style('visibility', 'hidden');
             this.chart.select('.dc-hightlight-line')
                 .attr('visibility', 'hidden')
 
             this.chart.selectAll('.dc-linechart-dots')
-                .data(this.data.yAxis.values)
+                .data(this.yAxisData.values)
                 .selectAll('.dc-linechart-dot')
                 .data((d) => {
                     return d.values;
-                }).transition(this._getTransition(this.duration / 2))
+                }).transition().duration(this.config.duration / 2)
                 .attr('r', (d, index) => {
-                    return 0;
+                    return 3;
                 })
         },
         _setEvents: function () {
@@ -438,7 +413,7 @@
             rect.on('mouseleave', () => {
                 this._onMouseLeaveFunc();
             })
-            if (this.trigger == 'hover') {
+            if (this.config.trigger == 'hover') {
                 rect.on('mousemove', function () {
                     _this._onMousemoveFunc();
                 });
@@ -452,43 +427,43 @@
         //show or hide line based on index
         showLine: function (show = true, index) {
             if (show) {
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-line')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-line')
                     .filter(function (d, i) {
                         return i === index;
                     })
                     .attr('opacity', 1)
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-dots')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-dots')
                     .filter(function (d, i) {
                         return i === index;
                     })
                     .attr('opacity', 1)
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-area')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-area')
                     .filter(function (d, i) {
                         return i === index;
                     })
                     .attr('opacity', 0.1)
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-tooltip-row')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-tooltip-row')
                     .filter(function (d, i) {
                         return i === index;
                     })
                     .style('display', 'block')
             } else {
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-line')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-line')
                     .filter(function (d, i) {
                         return i === index;
                     })
                     .attr('opacity', 0)
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-dots')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-dots')
                     .filter(function (d, i) {
                         return i === index;
                     })
                     .attr('opacity', 0)
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-area')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-area')
                     .filter(function (d, i) {
                         return i === index;
                     })
                     .attr('opacity', 0)
-                d3.select('.' + this.carrier).selectAll('.dc-linechart-tooltip-row')
+                d3.select(this.config.carrier).selectAll('.dc-linechart-tooltip-row')
                     .filter(function (d, i) {
                         return i === index;
                     })
@@ -504,7 +479,7 @@
             }
 
             this.chart.select('.dc-linechart-bg')
-                .transition(this._getTransition(this.duration))
+                .transition().duration(this.config.duration)
                 .style('visibility', 'visible')
                 .attr('width', xEnd - xStart)
                 .attr('x', xStart)
