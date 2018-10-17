@@ -35,7 +35,7 @@
             console.log('parent _init');
             //init basic data
             this.width = document.querySelector(this.config.carrier).offsetWidth - this.config.marginLeft - this.config.marginRight;
-            this.height = this.width * this.config.radio - this.config.marginTop - this.config.marginBottom;
+            this.height = document.querySelector(this.config.carrier).offsetHeight - this.config.marginTop - this.config.marginBottom;
             this.colorScale = d3.scaleOrdinal()
                 .range(this.config.colors);
             this.parseTime = d3.timeParse(this.config.dateFormat);
@@ -62,7 +62,7 @@
                     this._init();
                 }, 500);
             }, false)
-        }
+        },
     }
     
     window.BaseDChart = BaseDChart;

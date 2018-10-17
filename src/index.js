@@ -51,3 +51,30 @@ const chart1 = new DCLinechart({
     trigger: "hover",
     dateFormat: '%m-%d'
 });
+
+const chart2 = new DCLineBarchart({
+    carrier: ".lineBarChart",
+    colors: ["#1470CC", "#1BB21B"],
+    data: {
+        xAxis: {
+            name: "时间",
+            values: ["2017-01-01","2017-01-02"]
+        },
+        yAxis: [
+            {
+            name: "访问量",
+            values: [{
+                    label: "访问量",
+                    values: [111, 222, 333, 444, 555,111, 222, 333, 444, 555,111, 222, 333, 444, 555,111, 222, 333, 444, 555,111, 222, 333, 444]
+                }]
+            },
+            {
+            name: "询盘量",
+            values: [{
+                    label: "询盘量",
+                    values: [1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4]
+                }]
+            }
+        ]
+    }
+});
