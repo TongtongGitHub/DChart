@@ -2,57 +2,28 @@
  * 国家id名称编码 https://en.wikipedia.org/wiki/ISO_3166-1_numeric
  */
 (function () {
-    if (window.DCWorldMap) {
-        return;
+    let _super = window.BaseDChart;
+
+    function DCWorldMap(cf) {
+        _super.call(this, Object.assign({},cf,{
+            type: 1
+        })); // call super constructor
+        _super.prototype._initResize.call(this);
+        this._init();
     }
-
-    const defaultConfig = {
-        carrier: "chart",
-        colors: [],
-        data: [],
-        type: 1, // 1: country, 2: Continent
-
-        width: "100%",
-        height: "100%",
-
-        onClick: function () {},
-        onMouseenter: function () {},
-        onMouseout: function () {},
-        onMousemove: function () {}
-    };
-
-    let isResize = false;
-
-    function worldMap(cf) {
-        this.config = Object.assign({}, defaultConfig, cf);
-        this.init();
-    }
-    worldMap.prototype = {
-        init: function () {
-            this.initData();
-
-            //add svg element
-            this.chart = d3.select("." + this.carrier).append("svg")
-                .attr("width", "100%")
-                .attr("height", "100%")
-                .append("g")
-                .attr("class", "dc-map-container");
+    DCWorldMap.prototype = Object.create(_super.prototype)
+    DCWorldMap.prototype.constructor = DCWorldMap;
+    DCWorldMap.prototype = {
+        _init: function () {
+            _super.prototype._init.call(this);
             this.drawMap();
-
-            isResize ? "" : this.initResize();
-        },
-        initData: function () {
-            //init all private data
-            this.data = this.config.data;
-            this.colors = this.config.colors;
-            this.carrier = this.config.carrier;
-            this.type = this.config.type;
+            document.dispatchEvent(new CustomEvent('init'));
         },
         drawMap: function () {
-            let width = document.getElementsByClassName(this.carrier)[0].getBoundingClientRect().width;
-            let height = document.getElementsByClassName(this.carrier)[0].getBoundingClientRect().height;
+            let width = this.width;
+            let height = this.height;
             let world, areas, projection, map, path;
-            if (this.type == 1) {
+            if (this.config.type == 1) {
                 world = window.countriesMapJson;
                 areas = topojson.feature(world, world.objects.countries).features;
                 projection = d3.geoEquirectangular().fitSize([width, height], topojson.feature(world, world.objects.countries));
@@ -75,23 +46,23 @@
             }
             let _this = this;
             let colorScale = d3.scaleLinear()
-                .range([this.colors[0], this.colors[this.colors.length - 1]])
-                .domain([0, this.data.length]);
+                .range([this.config.colors[0], this.config.colors[this.config.colors.length - 1]])
+                .domain([0, this.config.data.length]);
             map.attr("d", path)
             .attr("id", d => {
-                return this.carrier + d.id;
+                return this.config.carrier.slice(1) + d.id;
             })
             .attr("centralPos", d => {
                 return path.centroid(d);
             })
             .attr("stroke", "#AAAEB3")
             .attr("fill", (d) => {
-                for (let index = 0; index < this.data.length; index++) {
-                    if (d.id == this.data[index].id) {
+                for (let index = 0; index < this.config.data.length; index++) {
+                    if (d.id == this.config.data[index].id) {
                         return colorScale(index);
                     }
                 }
-                return this.colors[this.colors.length - 1];
+                return this.config.colors[this.config.colors.length - 1];
             })
             .on("mouseenter", d => {
                 this._mouseEnter(d.id);
@@ -101,15 +72,15 @@
             })
         },
         _mouseEnter: function(id){
-            let elem = d3.select("#" + this.carrier + id);
+            let elem = d3.select("#" + this.config.carrier.slice(1) + id);
             if (elem.size() > 0) {
                 this.tempColor = elem.attr("fill");
-                d3.select("#" + this.carrier + id).attr("fill", "#FF7733")
-                for (let index = 0; index < this.data.length; index++) {
-                    if (id == this.data[index].id) {
+                d3.select("#" + this.config.carrier.slice(1) + id).attr("fill", "#FF7733")
+                for (let index = 0; index < this.config.data.length; index++) {
+                    if (id == this.config.data[index].id) {
                         let centralPos = elem.attr("centralPos");
-                        d3.select("." + this.carrier).select(".dc-map-tooltip").text(this.data[index].name + '占比: ' + this.data[index].value + '%');
-                        d3.select("." + this.carrier).select(".dc-map-tooltip")
+                        d3.select(this.config.carrier).select(".dc-map-tooltip").text(this.config.data[index].name + '占比: ' + this.config.data[index].value + '%');
+                        d3.select(this.config.carrier).select(".dc-map-tooltip")
                             .style("visibility", "visible")
                             .style("left", centralPos.split(",")[0] + "px")
                             .style("top", centralPos.split(",")[1] + "px")
@@ -117,40 +88,19 @@
                     }
                 }
             }
-            this.config.onMouseenter(id);
         },
         _mouseOut: function(id) {
-            d3.select("#" + this.carrier + id).attr("fill", this.tempColor);
-            d3.select("." + this.carrier).select(".dc-map-tooltip")
+            d3.select("#" + this.config.carrier.slice(1) + id).attr("fill", this.tempColor);
+            d3.select(this.config.carrier).select(".dc-map-tooltip")
                 .style("visibility", "hidden");
-            this.config.onMouseout(id);
         },
         update: function (data) {
             if (data) {
                 this.config.data = data;
             }
-            d3.select("." + this.carrier).select("svg").remove();
+            d3.select(this.config.carrier).select("svg").remove();
             this.init();
 
-        },
-        _resize: function () {
-            isResize = true;
-            d3.select("." + this.carrier).select("svg").remove();
-            // d3.select("." + this.carrier).select(".dc-linechart-tooltip").remove();
-            this.init();
-            isResize = false;
-        },
-        initResize: function () {
-            let _this = this;
-            let resizeTimer = null;
-            window.addEventListener('resize', function () {
-                if (resizeTimer) {
-                    clearTimeout(resizeTimer)
-                }
-                resizeTimer = setTimeout(() => {
-                    _this._resize();
-                }, 500);
-            })
         },
         setCountry: function (item, show) {
             show ? this._mouseEnter(item.id) : this._mouseOut(item.id);
@@ -158,5 +108,5 @@
         
     }
 
-    window.DCWorldMap = worldMap;
+    window.DCWorldMap = DCWorldMap;
 })()

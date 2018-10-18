@@ -109,3 +109,41 @@ const chart3 = new window.DCDonutChart({
 carrier: ".donutChart1",
 data: donutData
 });
+
+let mapData = [
+    {
+        name: "American",
+        id: 840,
+        value: 12
+    },
+    {
+        name: "China",
+        id: 156,
+        value: 13
+    }
+];
+
+const chart4 = new window.DCWorldMap({
+    carrier: ".map",
+    type: 1,
+    data: mapData,
+    onMousemoveEvent: function (d, pos) {
+        let posLeft = pos[0] + 20;
+        let posTop = pos[1] - 20;
+        for (let index = 0; index < data1.length; index++) {
+            if ( d.id == data1[index].id) {
+                $(".map1 .dc-map-tooltip").text(data1[index].name)
+                $(".map1 .dc-map-tooltip").css({
+                    "visibility":"visible",
+                    "left": posLeft + "px",
+                    "top": posTop + "px"
+                });
+            }
+        }
+    },
+    onMouseoutEvent: function () {
+        $(".map1 .dc-map-tooltip").css({
+            "visibility":"hidden"
+        });
+    }
+});
