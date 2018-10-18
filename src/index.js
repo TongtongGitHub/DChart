@@ -78,3 +78,34 @@ const chart2 = new DCLineBarchart({
         ]
     }
 });
+
+let donutData = [
+    {
+        name: 'China',
+        value: 10
+    },
+    {
+        name: 'US',
+        value: 20
+    },
+    {
+        name: 'EU',
+        value: 10
+    },
+    {
+        name: 'JP',
+        value: 20
+    },
+    {
+        name: 'KR',
+        value: 10
+    },
+    {
+        name: 'RS',
+        value: 20
+    }
+];
+const chart3 = new window.DCDonutChart({
+carrier: ".donutChart1",
+data: donutData
+});
